@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101110">
+<title>IronFit | Seu treino, sua evolução</title>
+
+<style>
+:root {
+  --bg: #101110;
+  --card: #1b1e1b;
+  --green: #a3ff45;
+  --text: #ffffff;
+  --muted: #a4aaa1;
+  --border: #30352e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  padding-bottom: 95px;
+}
+
+header {
+  padding: 22px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: var(--green);
+}
+
+.badge {
+  color: var(--green);
+  border: 1px solid #425c2d;
+  border-radius: 20px;
+  padding: 7px 11px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+main {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+.eyebrow {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 12px 0;
+}
+
+h1 span {
+  color: var(--green);
+}
+
+.subtitle {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.hero {
+  background: linear-gradient(135deg, #242b20, #171a17);
+  border: 1px solid #35432c;
+  border-radius: 22px;
+  padding: 24px;
+  margin: 18px 0 25px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--green);
+  color: #11150c;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  margin-top: 18px;
+}
+
+.button.secondary {
+  background: #282d26;
+  color: white;
+  border: 1px solid var(--border);
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 28px 0 14px;
+}
+
+h2 {
+  font-size: 19px;
+  margin: 0;
+}
+
+.section-title small {
+  color: var(--green);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 17px;
+  margin-bottom: 12px;
+}
+
+.stat-number {
+  font-size: 27px;
+  font-weight: 900;
+  margin: 12px 0 5px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.muscle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.muscle {
+  text-align: left;
+  color: white;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 17px;
+  cursor: pointer;
+}
+
+.muscle .icon {
+  font-size: 25px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.muscle strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.muscle small {
+  color: var(--muted);
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.exercise {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.exercise p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.exercise button {
+  background: #2b3524;
+  color: var(--green);
+  border: 1px solid #455a35;
+  border-radius: 10px;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+.progress-track {
+  height: 8px;
+  background: #343832;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  transition: width .3s;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: #191c19;
+  border-top: 1px solid var(--border);
+  padding: 12px 4px calc(12px + env(safe-area-inset-bottom));
+  z-index: 10;
+}
+
+nav button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+nav button span {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+nav button.active {
+  color: var(--green);
+}
+
+.notice {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  color: #73796f;
+  font-size: 11px;
+  padding: 25px 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">IRON<span>FIT</span></div>
+  <div class="badge">TREINE COM FOCO</div>
+</header>
+
+<main>
+
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="eyebrow">SUA JORNADA COMEÇA AQUI</div>
+    <h1>Construa sua melhor <span>versão.</span></h1>
+    <p class="subtitle">
+      Disciplina no treino. Consistência na evolução.
+      Um treino de cada vez.
+    </p>
+    <button class="button" onclick="showPage('workouts')">
+      COMEÇAR MEU TREINO →
+    </button>
+  </div>
+
+  <div class="section-title">
+    <h2>Seu progresso</h2>
+    <small>ACOMPANHAMENTO</small>
+  </div>
+
+  <div class="stats">
+    <div class="card">
+      <div>🔥</div>
+      <div class="stat-number" id="workoutCount">0</div>
+      <div class="stat-label">Treinos concluídos</div>
+    </div>
+    <div class="card">
+      <div>💪</div>
+      <div class="stat-number" id="exerciseCount">0</div>
+      <div class="stat-label">Exercícios concluídos</div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h2>Treine por grupo muscular</h2>
+  </div>
+
+  <div class="muscle-grid">
+    <button class="muscle" onclick="openMuscle('Peito')">
+      <span class="icon">🏋️</span>
+      <strong>Peito</strong>
+      <small>Força e controle</small>
+    </button>
+    <button class="muscle" onclick="openMuscle('Costas')">
+      <span class="icon">💪</span>
+      <strong>Costas</strong>
+      <small>Postura e força</small>
+    </button>
+    <button class="muscle" onclick="openMuscle('Pernas')">
+      <span class="icon">🦵</span>
+      <strong>Pernas</strong>
+      <small>Estabilidade</small>
+    </button>
+    <button class="muscle" onclick="openMuscle('Ombros')">
+      <span class="icon">🏆</span>
+      <strong>Ombros</strong>
+      <small>Mobilidade e força</small>
+    </button>
+  </div>
+
+  <footer>IRONFIT · SUA EVOLUÇÃO COMEÇA HOJE</footer>
+</section>
+
+<section id="workouts" class="page">
+  <div class="eyebrow">PLANEJAMENTO</div>
+  <h1>Seus <span>treinos</span></h1>
+  <p class="subtitle">Escolha um grupo muscular para ver os exercícios.</p>
+
+  <div class="card">
+    <h2>Treino A · Peito e tríceps</h2>
+    <p class="subtitle">Exercícios para trabalhar a parte superior do corpo.</p>
+    <button class="button" onclick="openMuscle('Peito')">VER EXERCÍCIOS</button>
+  </div>
+
+  <div class="card">
+    <h2>Treino B · Costas e bíceps</h2>
+    <p class="subtitle">Exercícios para costas e braços.</p>
+    <button class="button" onclick="openMuscle('Costas')">VER EXERCÍCIOS</button>
+  </div>
+
+  <div class="card">
+    <h2>Treino C · Pernas e ombros</h2>
+    <p class="subtitle">Trabalhe força e estabilidade.</p>
+    <button class="button" onclick="openMuscle('Pernas')">VER EXERCÍCIOS</button>
+  </div>
+
+  <p class="notice">Adapte os treinos ao seu nível, à sua recuperação e às orientações de um profissional de educação física.</p>
+</section>
+
+<section id="exercises" class="page">
+  <div class="eyebrow">BIBLIOTECA</div>
+  <h1>Seus <span>exercícios</span></h1>
+  <p class="subtitle">Selecione um grupo muscular para consultar os exercícios.</p>
+  <div id="exerciseList"></div>
+</section>
+
+<section id="progress" class="page">
+  <div class="eyebrow">SUA JORNADA</div>
+  <h1>Minha <span>evolução</span></h1>
+
+  <div class="card">
+    <h2>Treinos concluídos</h2>
+    <div class="stat-number" id="progressWorkouts">0</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+    <p class="notice">Meta ilustrativa: 12 exercícios concluídos. Acompanhe seu progresso no seu ritmo.</p>
+  </div>
+
+  <div class="card">
+    <h2>Registrar peso corporal</h2>
+    <p class="subtitle">Registre seu peso em quilogramas, se desejar.</p>
+    <input id="weight" type="number" min="1" max="500" step="0.1"
+      placeholder="Ex.: 75,5"
+      style="width:100%;padding:14px;border-radius:10px;background:#101110;color:white;border:1px solid #30352e">
+    <button class="button" onclick="saveWeight()">SALVAR PESO</button>
+    <p id="weightMessage" class="notice"></p>
+  </div>
+
+  <div class="card">
+    <h2>Histórico</h2>
+    <p id="history" class="subtitle">Seus registros aparecerão aqui.</p>
+    <button class="button secondary" onclick="resetProgress()">REINICIAR CONTADORES</button>
+  </div>
+</section>
+
+<section id="profile" class="page">
+  <div class="eyebrow">CONFIGURAÇÕES</div>
+  <h1>Meu <span>perfil</span></h1>
+
+  <div class="card">
+    <h2>Bem-vindo ao IronFit</h2>
+    <p class="subtitle">Seu espaço para organizar treinos e acompanhar sua evolução.</p>
+  </div>
+
+  <div class="card">
+    <h2>Sobre o aplicativo</h2>
+    <p class="subtitle">Esta é uma versão inicial do IronFit. Seus registros ficam armazenados localmente neste navegador.</p>
+  </div>
+
+  <div class="card">
+    <h2>Treine com segurança</h2>
+    <p class="notice">Aprenda a execução correta, respeite seus limites e interrompa qualquer exercício que provoque dor. Procure orientação profissional para adaptar os exercícios às suas necessidades.</p>
+  </div>
+</section>
+
+</main>
+
+<nav>
+  <button class="active" data-page="home" onclick="showPage('home',this)">
+    <span>⌂</span>Início
+  </button>
+  <button data-page="workouts" onclick="showPage('workouts',this)">
+    <span>🏋️</span>Treinos
+  </button>
+  <button data-page="exercises" onclick="showPage('exercises',this)">
+    <span>📋</span>Exercícios
+  </button>
+  <button data-page="progress" onclick="showPage('progress',this)">
+    <span>📈</span>Evolução
+  </button>
+  <button data-page="profile" onclick="showPage('profile',this)">
+    <span>👤</span>Perfil
+  </button>
+</nav>
+
+<script>
+const exercises = [
+  {name:'Supino reto com halteres',muscle:'Peito',sets:'3 séries · 8–12 repetições',tip:'Mantenha os pés apoiados e controle a descida.'},
+  {name:'Supino inclinado',muscle:'Peito',sets:'3 séries · 8–12 repetições',tip:'Mantenha os ombros estáveis durante o movimento.'},
+  {name:'Crucifixo na máquina',muscle:'Peito',sets:'2 séries · 10–15 repetições',tip:'Use amplitude confortável e evite movimentos bruscos.'},
+  {name:'Puxada frontal',muscle:'Costas',sets:'3 séries · 8–12 repetições',tip:'Puxe de forma controlada, sem balançar o tronco.'},
+  {name:'Remada sentada',muscle:'Costas',sets:'3 séries · 10–12 repetições',tip:'Mantenha a coluna neutra e controle o retorno.'},
+  {name:'Agachamento',muscle:'Pernas',sets:'3 séries · 8–12 repetições',tip:'Use uma amplitude confortável e mantenha o equilíbrio.'},
+  {name:'Leg press',muscle:'Pernas',sets:'3 séries · 10–12 repetições',tip:'Não trave os joelhos e não arredonde a lombar.'},
+  {name:'Desenvolvimento sentado',muscle:'Ombros',sets:'3 séries · 8–12 repetições',tip:'Use uma carga controlável e evite arquear a lombar.'},
+  {name:'Elevação lateral',muscle:'Ombros',sets:'2 séries · 12–15 repetições',tip:'Eleve os braços sem impulso e sem encolher os ombros.'},
+  {name:'Rosca bíceps',muscle:'Braços',sets:'3 séries · 10–12 repetições',tip:'Mantenha os cotovelos próximos ao corpo.'},
+  {name:'Tríceps na polia',muscle:'Braços',sets:'3 séries · 10–12 repetições',tip:'Mantenha os cotovelos estáveis.'}
+];
+
+let completed = Number(localStorage.getItem('ironfitCompleted') || 0);
+let workouts = Number(localStorage.getItem('ironfitWorkouts') || 0);
+let history = JSON.parse(localStorage.getItem('ironfitHistory') || '[]');
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const selected = btn || document.querySelector('nav button[data-page="' + id + '"]');
+  if (selected) selected.classList.add('active');
+  window.scrollTo(0,0);
+  updateProgress();
+}
+
+function renderExercises(list) {
+  const target = document.getElementById('exerciseList');
+  target.innerHTML = '';
+
+  list.forEach(ex => {
+    const card = document.createElement('div');
+    card.className = 'card exercise';
+
+    const info = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = ex.name;
+    const details = document.createElement('p');
+    details.textContent = ex.sets + ' · ' + ex.tip;
+    info.append(title, details);
+
+    const button = document.createElement('button');
+    button.textContent = 'Concluir';
+    button.onclick = () => completeExercise(button, ex.name);
+
+    card.append(info, button);
+    target.appendChild(card);
+  });
+}
+
+function openMuscle(muscle) {
+  renderExercises(exercises.filter(ex =>
+    ex.muscle === muscle ||
+    (muscle === 'Peito' && ex.muscle === 'Braços') ||
+    (muscle === 'Costas' && ex.muscle === 'Braços')
+  ));
+  showPage('exercises');
+}
+
+function completeExercise(button, name) {
+  completed++;
+  history.unshift(name + ' · ' + new Date().toLocaleDateString('pt-BR'));
+  history = history.slice(0,20);
+  localStorage.setItem('ironfitCompleted', completed);
+  localStorage.setItem('ironfitHistory', JSON.stringify(history));
+  button.textContent = 'Concluído ✓';
+  button.disabled = true;
+  updateProgress();
+}
+
+function updateProgress() {
+  document.getElementById('workoutCount').textContent = workouts;
+  document.getElementById('exerciseCount').textContent = completed;
+  document.getElementById('progressWorkouts').textContent = workouts;
+  document.getElementById('progressBar').style.width =
+    Math.min(completed / 12 * 100, 100) + '%';
+
+  document.getElementById('history').textContent =
+    history.length ? history.join(' | ') : 'Seus registros aparecerão aqui.';
+}
+
+function saveWeight() {
+  const input = document.getElementById('weight');
+  const value = Number(input.value);
+  const message = document.getElementById('weightMessage');
+
+  if (!value || value < 1 || value > 500) {
+    message.textContent = 'Digite um peso válido em quilogramas.';
+    return;
+  }
+
+  localStorage.setItem('ironfitWeight', value);
+  message.textContent = 'Peso registrado: ' + value + ' kg.';
+}
+
+function resetProgress() {
+  if (!confirm('Deseja reiniciar os contadores e o histórico?')) return;
+  completed = 0;
+  workouts = 0;
+  history = [];
+  localStorage.setItem('ironfitCompleted', '0');
+  localStorage.setItem('ironfitWorkouts', '0');
+  localStorage.setItem('ironfitHistory', '[]');
+  updateProgress();
+}
+
+renderExercises(exercises);
+updateProgress();
+</script>
+
+</body>
+  </html>
